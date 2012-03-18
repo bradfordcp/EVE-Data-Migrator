@@ -22,9 +22,9 @@ rails_connection_info = {
   :database => "killboard_development"
 }
 
-to_truncate = [AgentType, Agent, Race, Bloodline, CharacterAttribute, Ancestry, CertificateClass]
+to_truncate = [AgentType, Agent, Race, Bloodline, CharacterAttribute, Ancestry, CertificateClass, CertificateCategory, Certificate]
 # to_convert = [CCPAgentType, CCPAgent, CCPAttribute, CCPRace, CCPBloodline]
-to_convert = [CCPAgentType, CCPAttribute, CCPRace, CCPBloodline, CCPAncestry, CCPCertificateClass]
+to_convert = [CCPAgentType, CCPAttribute, CCPRace, CCPBloodline, CCPAncestry, CCPCertificateClass, CCPCertificateCategory, CCPCertificate]
 helper = [CCPName]
 
 # Fire up all db connections
