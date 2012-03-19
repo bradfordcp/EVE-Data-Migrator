@@ -4,7 +4,7 @@ class CCPRace < ActiveRecord::Base
 
   def to_rails_model
     Race.create(
-      :id => self.raceID,
+      :eve_id => self.raceID,
       :name => self.raceName,
       :description => self.description,
       :icon_id => self.iconID,

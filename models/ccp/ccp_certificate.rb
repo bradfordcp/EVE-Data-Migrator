@@ -3,7 +3,7 @@ class CCPCertificate < ActiveRecord::Base
 
   def to_rails_model
     Certificate.create(
-      :id => self.certificateID,
+      :eve_id => self.certificateID,
       :category_id => self.categoryID,
       :class_id => self.classID,
       :grade => self.grade,

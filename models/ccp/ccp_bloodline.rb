@@ -4,7 +4,7 @@ class CCPBloodline < ActiveRecord::Base
 
   def to_rails_model
     Bloodline.create(
-      :id => self.bloodlineID,
+      :eve_id => self.bloodlineID,
       :name => self.bloodlineName,
       :race_id => self.raceID,
       :description => self.description,

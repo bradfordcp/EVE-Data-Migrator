@@ -4,7 +4,7 @@ class CCPAncestry < ActiveRecord::Base
 
   def to_rails_model
     Ancestry.create(
-      :id => self.ancestryID,
+      :eve_id => self.ancestryID,
       :name => self.ancestryName,
       :bloodline_id => self.bloodlineID,
       :description => self.description,

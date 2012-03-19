@@ -22,9 +22,10 @@ rails_connection_info = {
   :database => "killboard_development"
 }
 
-to_truncate = [AgentType, Agent, Race, Bloodline, CharacterAttribute, Ancestry, CertificateClass, CertificateCategory, Certificate]
-# to_convert = [CCPAgentType, CCPAgent, CCPAttribute, CCPRace, CCPBloodline]
-to_convert = [CCPAgentType, CCPAttribute, CCPRace, CCPBloodline, CCPAncestry, CCPCertificateClass, CCPCertificateCategory, CCPCertificate]
+to_truncate = [AgentType, Race, Bloodline, CharacterAttribute, Ancestry, CertificateClass, 
+               CertificateCategory, Certificate, ShipType, Ship]
+to_convert = [CCPAgentType, CCPAttribute, CCPRace, CCPBloodline, CCPAncestry, CCPCertificateClass, 
+              CCPCertificateCategory, CCPCertificate, CCPShipType, CCPShip]
 helper = [CCPName]
 
 # Fire up all db connections
@@ -52,7 +53,14 @@ puts ""
 to_convert.each do |klass|
   puts "Process #{klass.to_s}"
   puts "########################################"
-  klass.all.each do |instance|
+  instances = []
+  if klass.respond_to? "get_all"
+    instances = klass.get_all
+  else
+    instances = klass.all
+  end
+
+  instances.each do |instance|
     rm = instance.to_rails_model
     puts rm.id
   end

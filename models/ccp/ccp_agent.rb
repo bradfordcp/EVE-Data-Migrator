@@ -6,7 +6,7 @@ class CCPAgent < ActiveRecord::Base
     name = CCPName.where(:itemID => self.agentID).first
 
     Agent.create(
-      :id => self.agentID,
+      :eve_id => self.agentID,
       :name => name.itemName,
       :division_id => self.divisionID,
       :corporation_id => self.corporationID,

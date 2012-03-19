@@ -4,7 +4,7 @@ class CCPAgentType < ActiveRecord::Base
 
   def to_rails_model
     AgentType.create(
-      :id => self.agentTypeID,
+      :eve_id => self.agentTypeID,
       :name => self.agentType
     )
   end

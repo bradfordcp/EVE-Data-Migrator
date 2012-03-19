@@ -3,7 +3,7 @@ class CCPAttribute < ActiveRecord::Base
 
   def to_rails_model
     CharacterAttribute.create(
-      :id => self.attributeID,
+      :eve_id => self.attributeID,
       :name => self.attributeName,
       :description => self.description,
       :short_description => self.shortDescription,
