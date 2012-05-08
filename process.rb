@@ -53,6 +53,8 @@ to_convert = []
 # to_convert << PlanetSchematic
 # to_convert << PlanetSchematicsPinMap
 # to_convert << PlanetSchematicsTypeMap
+to_convert << WarCombatZone
+to_convert << WarCombatZoneSystem
 
 to_truncate = to_convert
 
