@@ -47,9 +47,12 @@ to_convert = []
 # to_convert << DgmEffect
 # to_convert << DgmTypeAttribute
 # to_convert << DgmTypeEffect
-to_convert << EveGraphic
-to_convert << EveIcon
-to_convert << EveUnit
+# to_convert << EveGraphic
+# to_convert << EveIcon
+# to_convert << EveUnit
+# to_convert << PlanetSchematic
+# to_convert << PlanetSchematicsPinMap
+# to_convert << PlanetSchematicsTypeMap
 
 to_truncate = to_convert
 
