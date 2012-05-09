@@ -53,8 +53,25 @@ to_convert = []
 # to_convert << PlanetSchematic
 # to_convert << PlanetSchematicsPinMap
 # to_convert << PlanetSchematicsTypeMap
-to_convert << WarCombatZone
-to_convert << WarCombatZoneSystem
+# to_convert << WarCombatZone
+# to_convert << WarCombatZoneSystem
+# to_convert << InvBlueprintType
+# to_convert << InvCategory
+# to_convert << InvContrabandType
+# to_convert << InvControlTowerResource
+# to_convert << InvControlTowerResourcePurpose
+# to_convert << InvFlag
+# to_convert << InvGroup
+# to_convert << InvItem
+# to_convert << InvMarketGroup
+# to_convert << InvMetaGroup
+# to_convert << InvMetaType
+# to_convert << InvName
+# to_convert << InvPosition
+# to_convert << InvType
+# to_convert << InvTypeMaterial
+# to_convert << InvTypeReaction
+# to_convert << InvUniqueName
 
 to_truncate = to_convert
 
@@ -68,7 +85,8 @@ to_convert.each do |klass|
   collection = []
 
   klass.establish_connection(ccp_connection_info)
-  puts "Reading #{klass.all.length} #{klass.to_s}"
+  total = klass.all.length
+  puts "Reading #{total} #{klass.to_s}"
   pp klass.first.attributes
   klass.all.each do |instance|
     collection << instance.attributes
@@ -76,8 +94,13 @@ to_convert.each do |klass|
 
   klass.establish_connection(rails_connection_info)
   puts "Writing #{collection.length} #{klass.to_s}"
+  idx = 0
   collection.each do |attributes|
     instance = klass.new attributes
     instance.save
+
+    put "#{idx} of #{total}" if idx % 1000 == 0
+
+    idx = idx + 1
   end
 end
