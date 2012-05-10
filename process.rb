@@ -77,14 +77,18 @@ to_convert = []
 # to_convert << StaService
 # to_convert << StaStationType
 # to_convert << StaStation
-to_convert << RamActivity
-to_convert << RamAssemblyLineStation
-to_convert << RamAssemblyLineTypeDetailPerCategory
-to_convert << RamAssemblyLineTypeDetailPerGroup
-to_convert << RamAssemblyLineType
-to_convert << RamAssemblyLine
-to_convert << RamInstallationTypeContent
-to_convert << RamTypeRequirement
+# to_convert << RamActivity
+# to_convert << RamAssemblyLineStation
+# to_convert << RamAssemblyLineTypeDetailPerCategory
+# to_convert << RamAssemblyLineTypeDetailPerGroup
+# to_convert << RamAssemblyLineType
+# to_convert << RamAssemblyLine
+# to_convert << RamInstallationTypeContent
+# to_convert << RamTypeRequirement
+to_convert << TranslationTable
+to_convert << TrnTranslationColumn
+to_convert << TrnTranslationLanguage
+to_convert << TrnTranslation
 
 to_truncate = to_convert
 
@@ -113,7 +117,7 @@ to_convert.each do |klass|
       total_change = (idx - last_total)
       time_change = (current_time - last_time)
       num_per_second = total_change / time_change unless time_change == 0
-      puts "Read #{idx} of #{total}: #{total_change} in #{time_change} (#{num_per_second}/sec)" 
+      puts "Read #{idx} of #{total}: #{total_change} in #{time_change} seconds (#{num_per_second}/sec)" 
       last_time = current_time
       last_total = idx
     end
@@ -135,7 +139,7 @@ to_convert.each do |klass|
       total_change = (idx - last_total)
       time_change = (current_time - last_time)
       num_per_second = total_change / time_change unless time_change == 0
-      puts "Wrote #{idx} of #{total}: #{total_change} in #{time_change} (#{num_per_second}/sec)" 
+      puts "Wrote #{idx} of #{total}: #{total_change} in #{time_change} seconds (#{num_per_second}/sec)" 
       last_time = current_time
       last_total = idx
     end
