@@ -77,6 +77,14 @@ to_convert = []
 # to_convert << StaService
 # to_convert << StaStationType
 # to_convert << StaStation
+to_convert << RamActivity
+to_convert << RamAssemblyLineStation
+to_convert << RamAssemblyLineTypeDetailPerCategory
+to_convert << RamAssemblyLineTypeDetailPerGroup
+to_convert << RamAssemblyLineType
+to_convert << RamAssemblyLine
+to_convert << RamInstallationTypeContent
+to_convert << RamTypeRequirement
 
 to_truncate = to_convert
 
@@ -86,15 +94,31 @@ to_truncate.each do |klass|
   klass.connection.execute("TRUNCATE #{klass.table_name}")
 end
 
+total_migrated = 0
 to_convert.each do |klass|
   collection = []
 
   klass.establish_connection(ccp_connection_info)
+  idx = 0
+  last_time = Time.now.to_i
+  last_total = 0
   total = klass.all.length
   puts "Reading #{total} #{klass.to_s}"
   pp klass.first.attributes
   klass.all.each do |instance|
     collection << instance.attributes
+
+    if idx % 1000 == 0
+      current_time = Time.now.to_i
+      total_change = (idx - last_total)
+      time_change = (current_time - last_time)
+      num_per_second = total_change / time_change unless time_change == 0
+      puts "Read #{idx} of #{total}: #{total_change} in #{time_change} (#{num_per_second}/sec)" 
+      last_time = current_time
+      last_total = idx
+    end
+
+    idx = idx + 1
   end
 
   klass.establish_connection(rails_connection_info)
@@ -108,12 +132,17 @@ to_convert.each do |klass|
 
     if idx % 1000 == 0
       current_time = Time.now.to_i
-      num_per_second = (idx - last_total) / (current_time - last_time) unless current_time == last_time
-      puts "#{idx} of #{total}: #{num_per_second}/sec" 
+      total_change = (idx - last_total)
+      time_change = (current_time - last_time)
+      num_per_second = total_change / time_change unless time_change == 0
+      puts "Wrote #{idx} of #{total}: #{total_change} in #{time_change} (#{num_per_second}/sec)" 
       last_time = current_time
       last_total = idx
     end
 
     idx = idx + 1
   end
+  total_migrated = total_migrated + idx
 end
+
+puts "Migrated #{total_migrated} rows"
