@@ -50,11 +50,6 @@ to_convert = []
 # to_convert << EveGraphic
 # to_convert << EveIcon
 # to_convert << EveUnit
-# to_convert << PlanetSchematic
-# to_convert << PlanetSchematicsPinMap
-# to_convert << PlanetSchematicsTypeMap
-# to_convert << WarCombatZone
-# to_convert << WarCombatZoneSystem
 # to_convert << InvBlueprintType
 # to_convert << InvCategory
 # to_convert << InvContrabandType
@@ -72,11 +67,22 @@ to_convert = []
 # to_convert << InvTypeMaterial
 # to_convert << InvTypeReaction
 # to_convert << InvUniqueName
-# to_convert << StaOperationService
-# to_convert << StaOperation
-# to_convert << StaService
-# to_convert << StaStationType
-# to_convert << StaStation
+# to_convert << MapCelestialStatistic
+# to_convert << MapConstellation
+# to_convert << MapConstellationJump
+# to_convert << MapDenormalize
+# to_convert << MapJump
+# to_convert << MapLandmark
+# to_convert << MapLocationScene
+# to_convert << MapLocationWormholeClass
+# to_convert << MapRegion
+# to_convert << MapRegionJump
+# to_convert << MapSolarSystem
+# to_convert << MapSolarSystemJump
+# to_convert << MapUniverse
+# to_convert << PlanetSchematic
+# to_convert << PlanetSchematicsPinMap
+# to_convert << PlanetSchematicsTypeMap
 # to_convert << RamActivity
 # to_convert << RamAssemblyLineStation
 # to_convert << RamAssemblyLineTypeDetailPerCategory
@@ -85,10 +91,17 @@ to_convert = []
 # to_convert << RamAssemblyLine
 # to_convert << RamInstallationTypeContent
 # to_convert << RamTypeRequirement
-to_convert << TranslationTable
-to_convert << TrnTranslationColumn
-to_convert << TrnTranslationLanguage
-to_convert << TrnTranslation
+# to_convert << StaOperationService
+# to_convert << StaOperation
+# to_convert << StaService
+# to_convert << StaStationType
+# to_convert << StaStation
+# to_convert << TranslationTable
+# to_convert << TrnTranslationColumn
+# to_convert << TrnTranslationLanguage
+# to_convert << TrnTranslation
+# to_convert << WarCombatZone
+# to_convert << WarCombatZoneSystem
 
 to_truncate = to_convert
 
