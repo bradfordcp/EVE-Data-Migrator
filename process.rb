@@ -72,6 +72,11 @@ to_convert = []
 # to_convert << InvTypeMaterial
 # to_convert << InvTypeReaction
 # to_convert << InvUniqueName
+# to_convert << StaOperationService
+# to_convert << StaOperation
+# to_convert << StaService
+# to_convert << StaStationType
+# to_convert << StaStation
 
 to_truncate = to_convert
 
@@ -95,11 +100,19 @@ to_convert.each do |klass|
   klass.establish_connection(rails_connection_info)
   puts "Writing #{collection.length} #{klass.to_s}"
   idx = 0
+  last_time = Time.now.to_i
+  last_total = 0
   collection.each do |attributes|
     instance = klass.new attributes
     instance.save
 
-    put "#{idx} of #{total}" if idx % 1000 == 0
+    if idx % 1000 == 0
+      current_time = Time.now.to_i
+      num_per_second = (idx - last_total) / (current_time - last_time) unless current_time == last_time
+      puts "#{idx} of #{total}: #{num_per_second}/sec" 
+      last_time = current_time
+      last_total = idx
+    end
 
     idx = idx + 1
   end
