@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AgtAgent.cs" />
+    <Compile Include="Models\AgtAgentType.cs" />
+    <Compile Include="Models\AgtResearchAgent.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Processors\AgentProcessor.cs" />
     <Compile Include="Processors\Processor.cs" />

@@ -58,6 +58,9 @@ namespace EveMigrator.Processors
             truncateCommand.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Iterates over every added model and calls process
+        /// </summary>
         protected void processModels()
         {
             List<Model>.Enumerator enumerator = models.GetEnumerator();
@@ -68,25 +71,24 @@ namespace EveMigrator.Processors
             }
         }
 
+        /// <summary>
+        /// Pulls the records out of the SQL Server database and pushes into MySQL
+        /// </summary>
+        /// <param name="model"></param>
         protected void processModel(Model model) {
-            StringBuilder selectStatementBuilder = new StringBuilder("SELECT * FROM [dbo].[");
-            selectStatementBuilder.Append(model.TableName);
-            selectStatementBuilder.Append("]");
-            Console.Out.WriteLine(selectStatementBuilder.ToString());
+            StringBuilder startingLine = new StringBuilder("Starting ");
+            startingLine.Append(model.TableName);
+            Console.WriteLine(startingLine.ToString());
 
-            System.Data.SqlClient.SqlCommand selectCommand = Model.sqlserver_conn.CreateCommand();
-            selectCommand.CommandText = selectStatementBuilder.ToString();
+            System.Data.SqlClient.SqlCommand selectCommand = model.SelectCommand();
             System.Data.SqlClient.SqlDataReader selectReader = selectCommand.ExecuteReader();
             try
             {
-                System.Data.DataTable schema = selectReader.GetSchemaTable();
                 while (selectReader.Read())
                 {
-                    for (int x = 0; x < schema.Rows.Count; x++)
-                    {
-                        Console.WriteLine(selectReader.GetValue(x).ToString());
-                    }
-                    Console.WriteLine();
+                    // Convert the record into an insert command
+                    MySql.Data.MySqlClient.MySqlCommand insertCommand = model.convertToInsertCommand(selectReader);
+                    insertCommand.ExecuteNonQuery();
                 }
             }
             finally
