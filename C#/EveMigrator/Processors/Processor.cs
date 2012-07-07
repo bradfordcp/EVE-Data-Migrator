@@ -8,7 +8,12 @@ namespace EveMigrator.Processors
 {
     class Processor
     {
+        const String mysql_conn_string = "Server=127.0.0.1;Uid=eve;pwd=foobarbaz;Database=killboard_development";
+        const String sqlserver_conn_string = "Server=127.0.0.1;User id=eve;pwd=foobarbaz;database=Inferno17";
+
         protected List<Model> models;
+        protected MySql.Data.MySqlClient.MySqlConnection mysql_conn;
+        protected System.Data.SqlClient.SqlConnection sqlserver_conn;
 
         /// <summary>
         /// Add all associated models to the models data structure prior to calling process
@@ -16,6 +21,14 @@ namespace EveMigrator.Processors
         public Processor()
         {
             models = new List<Model>();
+
+            // Connect to our SQL Server Instance Running Locally
+            this.sqlserver_conn = new System.Data.SqlClient.SqlConnection();
+            this.sqlserver_conn.ConnectionString = sqlserver_conn_string;
+
+            // Connect to our MySQL Server Instance Running Locally
+            this.mysql_conn = new MySql.Data.MySqlClient.MySqlConnection();
+            this.mysql_conn.ConnectionString = mysql_conn_string;
         }
 
         /// <summary>
@@ -26,8 +39,14 @@ namespace EveMigrator.Processors
         /// </summary>
         public void process()
         {
+            this.mysql_conn.Open();
+            this.sqlserver_conn.Open();
+
             this.truncateMySqlTables();
             this.processModels();
+
+            this.mysql_conn.Close();
+            this.sqlserver_conn.Close();
         }
 
         /// <summary>
@@ -53,7 +72,7 @@ namespace EveMigrator.Processors
             truncateStatementBuilder.Append(model.TableName);
             Console.Out.WriteLine(truncateStatementBuilder.ToString());
 
-            MySql.Data.MySqlClient.MySqlCommand truncateCommand = Model.mysql_conn.CreateCommand();
+            MySql.Data.MySqlClient.MySqlCommand truncateCommand = this.mysql_conn.CreateCommand();
             truncateCommand.CommandText = truncateStatementBuilder.ToString();
             truncateCommand.ExecuteNonQuery();
         }
@@ -84,12 +103,28 @@ namespace EveMigrator.Processors
             System.Data.SqlClient.SqlDataReader selectReader = selectCommand.ExecuteReader();
             try
             {
+                int i = 0;
+                StringBuilder lineBuilder;
                 while (selectReader.Read())
                 {
                     // Convert the record into an insert command
                     MySql.Data.MySqlClient.MySqlCommand insertCommand = model.convertToInsertCommand(selectReader);
                     insertCommand.ExecuteNonQuery();
+
+                    if (i % 1000 == 0)
+                    {
+                        lineBuilder = new StringBuilder("Wrote ");
+                        lineBuilder.Append(i);
+                        lineBuilder.Append(" Rows");
+                        Console.WriteLine(lineBuilder.ToString());
+                    }
+                    i++;
                 }
+
+                lineBuilder = new StringBuilder("Finished ");
+                lineBuilder.Append(i);
+                lineBuilder.Append(" Rows");
+                Console.WriteLine(lineBuilder.ToString());
             }
             finally
             {

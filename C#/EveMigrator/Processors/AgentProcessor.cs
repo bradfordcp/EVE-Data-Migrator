@@ -11,9 +11,9 @@ namespace EveMigrator.Processors
         public AgentProcessor()
             : base()
         {
-            this.models.Add(new Models.AgtAgent());
-            this.models.Add(new Models.AgtAgentType());
-            this.models.Add(new Models.AgtResearchAgent());
+            this.models.Add(new Models.AgtAgent(this.mysql_conn, this.sqlserver_conn));
+            this.models.Add(new Models.AgtAgentType(this.mysql_conn, this.sqlserver_conn));
+            this.models.Add(new Models.AgtResearchAgent(this.mysql_conn, this.sqlserver_conn));
         }
     }
 }
